@@ -12,15 +12,19 @@ code {
     monospace;
 }
 
-
-.hover-highlight {
+.menu-item {
   transition: all 0.2s ease-in-out;
 }
 
-.hover-highlight:hover {
-  background-color: var(--bs-primary);
+.menu-item:hover {
+  background-color: #8a2be2;
   color: white !important;
   transform: translateX(5px);
+}
+
+/* Style for Logout button */
+li:last-child .menu-item:hover {
+  background-color: #8a2be2;
 }
 
 .mt-8 {
@@ -28,12 +32,12 @@ code {
 }
 
 .active-link {
-    background-color: var(--bs-primary) !important;
-    color: white !important;
-    transform: translateX(5px);
+  background-color: #8a2be2 !important;
+  color: white !important;
+  transform: translateX(5px);
 }
 
 .active-link:hover {
-    background-color: var(--bs-primary) !important;
-    color: white !important;
+  background-color: #8a2be2 !important;
+  color: white !important;
 }

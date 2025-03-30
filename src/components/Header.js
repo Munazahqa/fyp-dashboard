@@ -2,9 +2,11 @@ import React from 'react';
 
 function Header() {
     return (
-      <header className="bg-primary text-white p-4 w-200 shadow-sm border-bottom">
-        <h2 className="text-center m-0">Proactive Autoscaler System</h2>
-      </header>
+      <div className="m-3">
+        <header className="bg-white rounded p-4 shadow-sm">
+          <h2 className="text-center m-0" style={{ color: '#8a2be2' }}>Proactive Autoscaler System</h2>
+        </header>
+      </div>
     );
 }
 export default Header;

@@ -7,19 +7,23 @@ import MainContent from './components/MainContent';
 function App() {
   return (
     <Router>
-      <div className="d-flex">
+      <div className="d-flex min-vh-100">
         {/* Sidebar */}
         <Sidebar />
         
-        <div className="flex-grow-1 d-flex flex-column">
+        <div className="flex-grow-1 d-flex flex-column" style={{ backgroundColor: '#f8f9fa' }}>
           {/* Header */}
           <Header />
           
           {/* Main Content */}
-          <div className="flex-grow-1">
+          <div className="flex-grow-1 d-flex flex-column">
             <Routes>
               <Route path="/" element={<MainContent />} />
-              {/* You can add other routes here for different pages like metrics, settings, etc. */}
+              <Route path="/nodes" element={<MainContent />} />
+              <Route path="/pods" element={<MainContent />} />
+              <Route path="/history" element={<MainContent />} />
+              <Route path="/settings" element={<MainContent />} />
+              <Route path="/logout" element={<MainContent />} />
             </Routes>
           </div>
         </div>
