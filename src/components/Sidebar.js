@@ -6,7 +6,7 @@ function Sidebar() {
     
     const menuItems = [
         { path: "/", label: "Home" },
-        { path: "/nodes", label: "Nodes" },
+      //  { path: "/nodes", label: "Nodes" },
         { path: "/pods", label: "Pods" },
         { path: "/history", label: "History" },
         { path: "/settings", label: "Settings" },
