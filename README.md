@@ -20,7 +20,7 @@ A React-based web application for monitoring and managing Kubernetes resources.
 
 1. Clone the repository
 ```bash
-git clone [your-repo-url]
+git clone https://github.com/Munazahqa/fyp-dashboard.git
 ```
 
 2. Install dependencies
