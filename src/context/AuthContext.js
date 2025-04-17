@@ -3,10 +3,8 @@ import React, { createContext, useContext, useState } from 'react';
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    // Initialize the state based on localStorage
-    const [isAuthenticated, setIsAuthenticated] = useState(() => {
-        return localStorage.getItem('adminToken') ? true : false;
-    });
+    // Always start with unauthenticated state
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const login = (username, password) => {
         if (username === 'admin' && password === 'admin123') {

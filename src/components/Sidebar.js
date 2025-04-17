@@ -33,7 +33,7 @@ function Sidebar() {
 
     return (
         <>
-            <div className="bg-white vh-100 p-3 border-end" style={{ width: '200px' }}>
+            <div className="bg-white p-3 border-end rounded" style={{ width: '200px', marginTop: '1rem', marginBottom: '1rem', marginLeft: '1rem', height: 'calc(100vh - 2.5rem)' }}>
                 <ul className="list-unstyled mt-8">
                     {menuItems.map((item) => (
                         <li key={item.label} className="mb-4 text-center">

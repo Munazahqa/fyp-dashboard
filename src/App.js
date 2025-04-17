@@ -17,11 +17,11 @@ function App() {
             path="/*"
             element={
               <ProtectedRoute>
-                <div className="d-flex min-vh-100">
+                <div className="d-flex min-vh-100" style={{ backgroundColor: '#f8f9fa' }}>
                   {/* Sidebar */}
                   <Sidebar />
                   
-                  <div className="flex-grow-1 d-flex flex-column" style={{ backgroundColor: '#f8f9fa' }}>
+                  <div className="flex-grow-1 d-flex flex-column" >
                     {/* Header */}
                     <Header />
                     
