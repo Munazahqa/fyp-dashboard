@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import TrafficHistory from './TrafficHistory';
 // import { Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -97,6 +98,13 @@ function MainContent() {
       <div className="bg-white rounded p-4 shadow-sm flex-grow-1">
         <h3 className="mb-4" style={{ color: '#8a2be2' }}>{getTitle(location.pathname)}</h3>
         <div className="h-100">
+          {location.pathname === '/history' ? (
+            <TrafficHistory />
+          ) : (
+            <div className="d-flex justify-content-center align-items-center h-100">
+              <p className="text-muted">Select a section from the sidebar to view its content</p>
+            </div>
+          )}
           {/* <Line options={options} data={data} /> */}
         </div>
       </div>
