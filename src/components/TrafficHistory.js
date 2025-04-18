@@ -43,15 +43,36 @@ function TrafficHistory() {
                 Papa.parse(csvText, {
                     header: true,
                     complete: (results) => {
+                        // Log raw data to check structure
+                        console.log('Raw CSV data first row:', results.data[0]);
+                        
                         // Process and format the data
                         const processedData = results.data
-                            .filter(item => item.timestamp && item.http_requests)
-                            .map(item => ({
-                                timestamp: new Date(item.timestamp),
-                                volume: parseFloat(item.http_requests)
-                            }))
+                            .filter(item => {
+                                // Log items that are being filtered out
+                                if (!item.timestamp || !item.http_requests) {
+                                    console.log('Filtered out item:', item);
+                                    return false;
+                                }
+                                return true;
+                            })
+                            .map(item => {
+                                // Log the parsing of http_requests
+                                const volume = parseFloat(item.http_requests);
+                                console.log('Parsing http_requests:', {
+                                    original: item.http_requests,
+                                    parsed: volume,
+                                    timestamp: new Date(item.timestamp)
+                                });
+                                return {
+                                    timestamp: new Date(item.timestamp),
+                                    volume: volume
+                                };
+                            })
                             .sort((a, b) => a.timestamp - b.timestamp);
                         
+                        console.log('Total data points:', processedData.length);
+                        console.log('Sample of processed data:', processedData.slice(0, 3));
                         setTrafficData(processedData);
                         setLoading(false);
                     },
@@ -61,6 +82,7 @@ function TrafficHistory() {
                     }
                 });
             } catch (err) {
+                console.error('Error fetching data:', err);
                 setError('Failed to fetch traffic data');
                 setLoading(false);
             }
@@ -72,7 +94,7 @@ function TrafficHistory() {
     // Filter the data based on timeValue and timeUnit
     useEffect(() => {
         if (trafficData.length > 0) {
-            const now = new Date();
+            const endDate = new Date(Math.max(...trafficData.map(item => item.timestamp)));
             let timeInMilliseconds;
             
             if (timeUnit === 'hours') {
@@ -81,11 +103,23 @@ function TrafficHistory() {
                 timeInMilliseconds = parseFloat(timeValue) * 24 * 60 * 60 * 1000;
             }
             
-            const timeAgo = new Date(now.getTime() - timeInMilliseconds);
+            const startDate = new Date(endDate.getTime() - timeInMilliseconds);
+            console.log('Time range:', { 
+                startDate: startDate.toLocaleString(),
+                endDate: endDate.toLocaleString(), 
+                timeInMilliseconds 
+            });
             
-            const filtered = trafficData.filter(item => 
-                item.timestamp >= timeAgo && item.timestamp <= now
-            );
+            const filtered = trafficData.filter(item => {
+                const isInRange = item.timestamp >= startDate && item.timestamp <= endDate;
+                return isInRange;
+            });
+            
+            console.log('Filtered data points:', filtered.length);
+            if (filtered.length > 0) {
+                console.log('First point:', filtered[0].timestamp.toLocaleString());
+                console.log('Last point:', filtered[filtered.length - 1].timestamp.toLocaleString());
+            }
             
             setFilteredData(filtered);
         }
@@ -141,7 +175,7 @@ function TrafficHistory() {
         responsive: true,
         maintainAspectRatio: false,
         animation: {
-            duration: 0 // Disable animations to prevent continuous movement
+            duration: 0
         },
         plugins: {
             legend: {
@@ -250,7 +284,13 @@ function TrafficHistory() {
                 </div>
             </div>
             <div style={{ height: '500px', backgroundColor: 'white', borderRadius: '8px', padding: '20px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-                <Line data={chartData} options={options} />
+                {filteredData.length > 0 ? (
+                    <Line data={chartData} options={options} />
+                ) : (
+                    <div className="d-flex justify-content-center align-items-center h-100">
+                        <p className="text-muted">No data available for the selected time range</p>
+                    </div>
+                )}
             </div>
         </div>
     );
