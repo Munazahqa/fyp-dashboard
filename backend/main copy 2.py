@@ -1,3 +1,5 @@
+# backend/main.py
+
 from fastapi import FastAPI
 from kubernetes import client, config
 import pandas as pd
@@ -10,17 +12,7 @@ import os
 
 from prometheus_fastapi_instrumentator import Instrumentator
 
-from fastapi.middleware.cors import CORSMiddleware
-
 app = FastAPI()
-
-# CORS (Allow React frontend to access the API)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # Enable metrics on /metrics endpoint
 Instrumentator().instrument(app).expose(app)
@@ -45,37 +37,6 @@ scaler = joblib.load("scaler.save")
 config.load_kube_config()
 k8s_apps_v1 = client.AppsV1Api()
 
-@app.get("/pods")
-def get_pods():
-    v1 = client.CoreV1Api()
-    pods = v1.list_pod_for_all_namespaces(watch=False)
-    return {
-        "pods": [
-            {
-                "name": pod.metadata.name,
-                "namespace": pod.metadata.namespace,
-                "status": pod.status.phase,
-                "ip": pod.status.pod_ip,
-            }
-            for pod in pods.items
-        ]
-    }
-
-@app.get("/replicas")
-def get_replicas():
-    apps_v1 = client.AppsV1Api()
-    deployments = apps_v1.list_deployment_for_all_namespaces(watch=False)
-    return {
-        "replicas": [
-            {
-                "name": dep.metadata.name,
-                "namespace": dep.metadata.namespace,
-                "desired": dep.spec.replicas,
-                "current": dep.status.ready_replicas or 0,
-            }
-            for dep in deployments.items
-        ]
-    }
 
 # Step 1: Get data from Prometheus
 def fetch_recent_http_metrics():

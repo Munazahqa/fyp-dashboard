@@ -27,7 +27,7 @@ function Sidebar() {
         //  { path: "/nodes", label: "Nodes" },
         { path: "/pods", label: "Pods" },
         { path: "/history", label: "History" },
-        { path: "/settings", label: "Settings" },
+        // { path: "/settings", label: "Settings" },
         { label: "Logout", onClick: handleLogoutClick }
     ];
 

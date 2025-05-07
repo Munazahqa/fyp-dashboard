@@ -39,7 +39,6 @@ function Layout() {
             <Route path="/" element={<MainContent />} />
             <Route path="/pods" element={<MainContent />} />
             <Route path="/history" element={<MainContent />} />
-            <Route path="/settings" element={<MainContent />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
